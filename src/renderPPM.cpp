@@ -1,9 +1,10 @@
 #include <iostream>
 #include <cmath>
 
-#include "vec3.hpp"
+#include "util.hpp"
 #include "color.hpp"
-#include "ray.hpp"
+#include "hittable_list.hpp"
+#include "sphere.hpp"
 
 // QUadratic solution for intersection of ray and sphere
 double hit_sphere(const point3& center, double radius, const ray& r){
@@ -18,18 +19,16 @@ double hit_sphere(const point3& center, double radius, const ray& r){
 
 // Linear blend
 // Colour red when hitting sphere
-color ray_color(const ray& r){
+color ray_color(const ray& r, const hittable_list& world){
     const auto WHITE = color(1.0, 1.0, 1.0);
     const auto BLUE = color(0.5, 0.7, 1.0);
-    // const auto RED = color(1.0, 0.0, 0.0);
-    auto t = hit_sphere(point3(0, 0, -1), 0.5, r);
-    if (t > 0.0){
-        vec3 normal = r.at(t) - vec3(0, 0, -1);
-        return (color(1) + normal) * 0.5;
+    hit_record hr;
+    if (world.hit(r, 0, infinity, hr)){
+        return (hr.normal + color(1)) * 0.5;
     }
     vec3 unit_direction = unit_vector(r.direction());
     // y is [-1, 1] t should be [0, 1]
-    t = 0.5 * (unit_direction[1] + 1);
+    auto t = 0.5 * (unit_direction[1] + 1);
     return WHITE * (1 - t) + BLUE * t;
 }
 
@@ -38,6 +37,11 @@ int main(){
     const auto aspect_ratio = 16.0 / 9.0;
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
+
+    // World
+    hittable_list world;
+    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5)); // sphere
+    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100)); // ground
 
     // Camera
     auto viewport_height = 2.0;
@@ -59,7 +63,7 @@ int main(){
             auto x = double(i) / (image_width - 1);
             auto y = double(j) / (image_height - 1);
             ray r(origin, lower_left_corner + horizontal * x + vertical * y - origin);
-            color pixel = ray_color(r);
+            color pixel = ray_color(r, world);
             write_color(std::cout, pixel);
         }
     }
