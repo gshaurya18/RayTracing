@@ -6,17 +6,6 @@
 #include "hittable_list.hpp"
 #include "sphere.hpp"
 
-// QUadratic solution for intersection of ray and sphere
-double hit_sphere(const point3& center, double radius, const ray& r){
-    vec3 oc = r.origin() - center;
-    auto a = r.direction().norm_squared();
-    auto half_b = dot(r.direction(), oc);
-    auto c = oc.norm_squared() - radius * radius;
-    auto discrim = half_b * half_b - a * c; // if discriminant positive they intersect
-    if (discrim < 0) return -1;
-    return (-half_b - std::sqrt(discrim)) / a; // closer root
-}
-
 // Linear blend
 // Colour red when hitting sphere
 color ray_color(const ray& r, const hittable_list& world){
