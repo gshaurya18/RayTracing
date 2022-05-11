@@ -1,0 +1,35 @@
+# Executables and debug files
+build/
+*.exe
+*.dSYM
+*.out
+
+# Visual debugger configurations
+.vscode/
+.vs/
+*.vcxproj
+*.vcxproj.*
+*.xcodeproj/
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Files created by text editors
+*~
+*.lock
+*.swp
+
+# MacOS system files
+*.DS_STORE
