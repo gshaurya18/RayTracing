@@ -8,12 +8,12 @@
 // QUadratic solution for intersection of ray and sphere
 double hit_sphere(const point3& center, double radius, const ray& r){
     vec3 oc = r.origin() - center;
-    auto a = dot(r.direction(), r.direction());
-    auto b = 2.0 * dot(r.direction(), oc);
-    auto c = dot(oc, oc) - radius * radius;
-    auto discrim = b * b - 4 * a * c; // if discriminant positive they intersect
+    auto a = r.direction().norm_squared();
+    auto half_b = dot(r.direction(), oc);
+    auto c = oc.norm_squared() - radius * radius;
+    auto discrim = half_b * half_b - a * c; // if discriminant positive they intersect
     if (discrim < 0) return -1;
-    return (-b - std::sqrt(discrim)) / (2.0 * a); // closer root
+    return (-half_b - std::sqrt(discrim)) / a; // closer root
 }
 
 // Linear blend
