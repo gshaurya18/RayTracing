@@ -12,7 +12,7 @@ class vec3{
     public:
         vec3(): arr{0, 0, 0} { }
 
-        vec3(double d) : arr{d, d, d} { }
+        explicit vec3(double d) : arr{d, d, d} { }
 
         vec3(double arr0, double arr1, double arr2) : arr{arr0, arr1, arr2} { }
 
