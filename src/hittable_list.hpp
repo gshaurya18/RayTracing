@@ -12,7 +12,9 @@ using std::make_shared;
 class hittable_list : public hittable{
     std::vector< shared_ptr<hittable> > objects;
     public:
-        hittable_list(shared_ptr<hittable> object) { add(object); }
+        hittable_list() { }
+
+        explicit hittable_list(shared_ptr<hittable> object) { add(object); }
 
         void clear() { objects.clear(); }
 
@@ -28,11 +30,11 @@ class hittable_list : public hittable{
             auto closest_so_far = t_max;
 
             for (const auto& object: objects){
-            if (object->hit(r, t_min, closest_so_far, hr)){
-                hit_anything = true;
-                closest_so_far = hr.t;
-                rec = hr;
-            }
+                if (object->hit(r, t_min, closest_so_far, hr)){
+                    hit_anything = true;
+                    closest_so_far = hr.t;
+                    rec = hr;
+                }
             }
 
             return hit_anything;
