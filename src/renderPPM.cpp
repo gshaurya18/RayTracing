@@ -10,6 +10,7 @@ int main(){
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
     for (int j = 0; j < image_height; ++j){
+        std::cerr << "Scanlines remaining " << image_height - j - 1 << '\n'; 
         for (int i = 0; i < image_width; ++i){
             double r = static_cast<double>(i) / (image_width - 1);
             double g = static_cast<double>(j) / (image_height - 1);
@@ -24,4 +25,5 @@ int main(){
             std::cout << ir << ' ' << ig << ' ' << ib << '\n';
         }
     }
+    std::cerr << "Done.\n";
 }
