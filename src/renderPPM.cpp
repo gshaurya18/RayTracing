@@ -1,16 +1,19 @@
 #include <iostream>
+#include <cmath>
 
 #include "vec3.hpp"
 #include "color.hpp"
 #include "ray.hpp"
 
 // QUadratic solution for intersection of ray and sphere
-bool hit_sphere(const point3& center, double radius, const ray& r){
+double hit_sphere(const point3& center, double radius, const ray& r){
     vec3 oc = r.origin() - center;
     auto a = dot(r.direction(), r.direction());
     auto b = 2.0 * dot(r.direction(), oc);
     auto c = dot(oc, oc) - radius * radius;
-    return b * b - 4 * a * c > 0; // if discriminant positive they intersect
+    auto discrim = b * b - 4 * a * c; // if discriminant positive they intersect
+    if (discrim < 0) return -1;
+    return (-b - std::sqrt(discrim)) / (2.0 * a); // closer root
 }
 
 // Linear blend
@@ -18,13 +21,15 @@ bool hit_sphere(const point3& center, double radius, const ray& r){
 color ray_color(const ray& r){
     const auto WHITE = color(1.0, 1.0, 1.0);
     const auto BLUE = color(0.5, 0.7, 1.0);
-    const auto RED = color(1.0, 0.0, 0.0);
-    if (hit_sphere(point3(0, 0, -1), 0.5, r)){
-        return RED;
+    // const auto RED = color(1.0, 0.0, 0.0);
+    auto t = hit_sphere(point3(0, 0, -1), 0.5, r);
+    if (t > 0.0){
+        vec3 normal = r.at(t) - vec3(0, 0, -1);
+        return (color(1) + normal) * 0.5;
     }
     vec3 unit_direction = unit_vector(r.direction());
     // y is [-1, 1] t should be [0, 1]
-    auto t = 0.5 * (unit_direction[1] + 1);
+    t = 0.5 * (unit_direction[1] + 1);
     return WHITE * (1 - t) + BLUE * t;
 }
 
