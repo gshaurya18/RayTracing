@@ -3,10 +3,14 @@
 
 #include "ray.hpp"
 #include "vec3.hpp"
+#include "util.hpp"
+
+class material;
 
 struct hit_record{
     point3 p; // point where it hits a surface
     vec3 normal; // normal to the surface at the point
+    shared_ptr<material> mat_ptr;
     double t; // t value for ray
     bool front_face; // Determine ray hitting front or back at time of geometric intersection
     // true if ray is outside the sphere
