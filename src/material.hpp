@@ -28,4 +28,19 @@ class lambertian: public material{
         }
 };
 
+class metal: public material{
+    color albedo;
+    public:
+        metal(const color& c): albedo(c) { }
+
+        virtual bool scatter(
+            const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered
+        ) const override {
+            vec3 reflected = reflect(unit_vector(ray_in.direction()), rec.normal);
+            scattered = ray(rec.p, reflected);
+            attenuation = albedo;
+            return dot(scattered.direction(), rec.normal) > 0;
+        }
+};
+
 #endif
