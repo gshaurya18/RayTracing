@@ -107,6 +107,12 @@ class vec3{
         inline static vec3 random(double min=0.0, double max=1.0){
             return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
         }
+
+        // Check if vector is nearly all 0
+        bool near_zero() const{
+                const auto epsilon = 1e-8;
+                return (std::abs(arr[0]) < epsilon) && (std::abs(arr[1]) < epsilon) && (std::abs(arr[2] < epsilon));
+        }
 };
 
 inline vec3 unit_vector(const vec3& v){
