@@ -122,6 +122,11 @@ vec3 random_in_unit_sphere(){
     return rand * radius;
 }
 
+vec3 random_unit_vector(){
+    auto rand = vec3(random_normal(), random_normal(), random_normal());
+    return unit_vector(rand);
+}
+
 // Type aliases for vec3
 using point3 = vec3; // point in 3D space
 using color = vec3; // RGB color
