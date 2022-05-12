@@ -13,7 +13,7 @@ class sphere: public hittable{
 
     public:
         sphere(point3 center_in, double r, shared_ptr<material> m) :
-            center(center_in), radius(r), mat_ptr(m) { }
+            center(center_in), mat_ptr(m), radius(r) { }
         
         // Set hit record and return wether hit or not
         // hit record undefined if false returned
