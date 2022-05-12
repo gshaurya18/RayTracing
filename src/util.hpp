@@ -20,9 +20,9 @@ inline double degrees_to_radians(double degrees){
     return degrees * pi / 180;
 }
 
-inline double random_double(){
-    // Random in [0, 1)
-    static std::uniform_real_distribution<> dist(0.0, 1.0);
+inline double random_double(double min=0.0, double max=1.0){
+    // Random real in [min, max)
+    static std::uniform_real_distribution<> dist(min, max);
     static std::random_device rd;
     static std::mt19937 gen(rd());
     return dist(gen);
@@ -33,6 +33,13 @@ inline double clamp(double x, double min, double max){
     if (x < min) return min;
     if (x > max) return max;
     return x;
+}
+
+inline double random_normal(){
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::normal_distribution<> dist;
+    return dist(gen);
 }
 
 // Project Headers

@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cassert>
 #include <array>
+#include "util.hpp"
 
 // Class that contains a triple of objects. Used for rgb color, 3d points etc.
 class vec3{
@@ -101,10 +102,24 @@ class vec3{
                         v1.arr[2] * v2.arr[0] - v1.arr[0] * v2.arr[2],
                         v1.arr[0] * v2.arr[1] - v1.arr[1] * v2.arr[0]);
         }
+
+        // Random utility functions
+        inline static vec3 random(double min=0.0, double max=1.0){
+            return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
+        }
 };
 
 inline vec3 unit_vector(const vec3& v){
     return v / v.norm();
+}
+
+// Random in a unit sphere centered at the origin using a gaussian distribution
+vec3 random_in_unit_sphere(){
+    auto rand = vec3(random_normal(), random_normal(), random_normal());
+    rand = unit_vector(rand);
+    auto radius_cubed = random_double();
+    auto radius = std::cbrt(radius_cubed);
+    return rand * radius;
 }
 
 // Type aliases for vec3
