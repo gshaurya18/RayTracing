@@ -28,6 +28,13 @@ inline double random_double(){
     return dist(gen);
 }
 
+// Clamp x to [min, max] range
+inline double clamp(double x, double min, double max){
+    if (x < min) return min;
+    if (x > max) return max;
+    return x;
+}
+
 // Project Headers
 #include "ray.hpp"
 #include "vec3.hpp"
