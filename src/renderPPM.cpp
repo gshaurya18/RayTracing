@@ -9,12 +9,17 @@
 
 // Linear blend
 // Colour red when hitting sphere
-color ray_color(const ray& r, const hittable_list& world){
+color ray_color(const ray& r, const hittable_list& world, int depth){
     const auto WHITE = color(1.0, 1.0, 1.0);
     const auto BLUE = color(0.5, 0.7, 1.0);
+    const auto BLACK = color(0);
+
+    if (depth <= 0) return BLACK;
+
     hit_record hr;
     if (world.hit(r, 0, infinity, hr)){
-        return (hr.normal + color(1)) * 0.5;
+        point3 target = hr.p + hr.normal + random_in_unit_sphere();
+        return ray_color(ray(hr.p, target - hr.p), world, depth - 1) * 0.5;
     }
     vec3 unit_direction = unit_vector(r.direction());
     // y is [-1, 1] t should be [0, 1]
@@ -28,6 +33,7 @@ int main(){
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
     const int samples_per_pixel = 100;
+    const int max_depth = 50;
 
     // World
     hittable_list world;
@@ -49,7 +55,7 @@ int main(){
                 auto x = (i + random_double()) / (image_width - 1);
                 auto y = (j + random_double()) / (image_height - 1);
                 auto r = cam.get_ray(x, y);
-                pixel += ray_color(r, world);
+                pixel += ray_color(r, world, max_depth);
             }
             write_color(std::cout, pixel, samples_per_pixel);
         }
