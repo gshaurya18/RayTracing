@@ -4,6 +4,7 @@
 #include "vec3.hpp"
 
 #include <iostream>
+#include <cmath>
 
 void write_color(std::ostream& os, color pixel, int samples_per_pixel){
     auto r = pixel[0];
@@ -11,9 +12,10 @@ void write_color(std::ostream& os, color pixel, int samples_per_pixel){
     auto b = pixel[2];
 
     // Scale cummulative value by number of samples
-    r /= samples_per_pixel;
-    g /= samples_per_pixel;
-    b /= samples_per_pixel;
+    auto scale = 1.0 / samples_per_pixel;
+    r = std::sqrt(scale * r);
+    g = std::sqrt(scale * g);
+    b = std::sqrt(scale * b);
 
     // Write translated [0, 255] value
     const int ir = static_cast<int>(256 * clamp(r, 0.0, 0.999));
