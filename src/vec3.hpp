@@ -133,6 +133,9 @@ vec3 random_unit_vector(){
     return unit_vector(rand);
 }
 
+vec3 reflect(const vec3& v, const vec3& n){
+    return v - n * (dot(v, n) * 2);
+}
 // Type aliases for vec3
 using point3 = vec3; // point in 3D space
 using color = vec3; // RGB color
