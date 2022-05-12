@@ -6,6 +6,7 @@
 #include "hittable_list.hpp"
 #include "sphere.hpp"
 #include "camera.hpp"
+#include "material.hpp"
 
 // Linear blend
 // Colour red when hitting sphere
@@ -18,8 +19,12 @@ color ray_color(const ray& r, const hittable_list& world, int depth){
 
     hit_record hr;
     if (world.hit(r, 0.001, infinity, hr)){
-        point3 target = hr.p + hr.normal + random_unit_vector();
-        return ray_color(ray(hr.p, target - hr.p), world, depth - 1) * 0.5;
+        ray scattered;
+        color attenuation;
+        if (hr.mat_ptr->scatter(r, hr, attenuation, scattered)){
+            return attenuation * ray_color(scattered, world, depth - 1);
+        }
+        return BLACK;
     }
     vec3 unit_direction = unit_vector(r.direction());
     // y is [-1, 1] t should be [0, 1]
