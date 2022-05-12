@@ -4,6 +4,7 @@
 #include <cmath>
 #include <limits>
 #include <memory>
+#include <random>
 
 // Aliases
 using std::shared_ptr;
@@ -17,6 +18,14 @@ const double pi = 3.1415926535897932385;
 // Utility Functions
 inline double degrees_to_radians(double degrees){
     return degrees * pi / 180;
+}
+
+inline double random_double(){
+    // Random in [0, 1)
+    static std::uniform_real_distribution<> dist(0.0, 1.0);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    return dist(gen);
 }
 
 // Project Headers
