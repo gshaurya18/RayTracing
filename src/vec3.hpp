@@ -111,7 +111,7 @@ class vec3{
         // Check if vector is nearly all 0
         bool near_zero() const{
                 const auto epsilon = 1e-8;
-                return (std::abs(arr[0]) < epsilon) && (std::abs(arr[1]) < epsilon) && (std::abs(arr[2] < epsilon));
+                return (std::abs(arr[0]) < epsilon) && (std::abs(arr[1]) < epsilon) && (std::abs(arr[2]) < epsilon);
         }
 };
 
