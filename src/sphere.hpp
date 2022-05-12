@@ -8,10 +8,11 @@
 
 class sphere: public hittable{
     point3 center;
+    shared_ptr<material> mat_ptr;
     double radius;
 
     public:
-        sphere(point3 center_in, double r) :
+        sphere(point3 center_in, double r, shared_ptr<material> m) :
             center(center_in), radius(r) { }
         
         // Set hit record and return wether hit or not
@@ -38,6 +39,7 @@ class sphere: public hittable{
             rec.p = r.at(root);
             vec3 out_normal = (rec.p - center) / radius;
             rec.set_face_normal(r, out_normal);
+            rec.mat_ptr = mat_ptr;
 
             return true;
         }
