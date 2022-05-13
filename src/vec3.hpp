@@ -136,6 +136,16 @@ vec3 random_unit_vector(){
 vec3 reflect(const vec3& v, const vec3& n){
     return v - n * (dot(v, n) * 2);
 }
+
+// ri_ratio is ratio of refractive index
+// incident / medium
+// v is a unit vector
+vec3 refract(const vec3& v, const vec3& n, double ri_ratio){
+    auto cos_theta = std::fmin(dot(-v, n), 1.0);
+    vec3 r_out_perp = (v + n * cos_theta) * ri_ratio;
+    vec3 r_out_parallel = -n * std::sqrt(std::abs(1 - r_out_perp.norm_squared()));
+    return r_out_perp + r_out_parallel;
+}
 // Type aliases for vec3
 using point3 = vec3; // point in 3D space
 using color = vec3; // RGB color
