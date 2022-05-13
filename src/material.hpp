@@ -45,7 +45,7 @@ class metal: public material{
         }
 };
 
-class dielectric: public materia{
+class dielectric: public material{
     double ri; // refractive index
     public:
         dielectric(double r): ri(r) { }
