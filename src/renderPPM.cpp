@@ -61,7 +61,7 @@ int main(){
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
     for (int j = image_height - 1; j >= 0; --j){
-        std::cerr << "Scanlines remaining " << j << '\n'; 
+        std::cerr << "\rScanlines remaining " << j << ' '; 
         for (int i = 0; i < image_width; ++i){
             auto pixel = color(0);
             for (int s = 0; s < samples_per_pixel; ++s){
