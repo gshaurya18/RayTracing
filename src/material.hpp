@@ -57,9 +57,12 @@ class dielectric: public material{
             double refraction_ratio = rec.front_face ? (1.0 / ri) : ri;
 
             vec3 unit_direction = unit_vector(ray_in.direction());
-            vec3 refracted = refract(unit_direction, rec.normal, refraction_ratio);
+            double cos_t = std::fmin(dot(-unit_direction, rec.normal), 1.0);
+            double sin_t = std::sqrt(1 - cos_t * cos_t);
 
-            scattered = ray(rec.p, refracted);
+            vec3 direction = (refraction_ratio *  sin_t > 1.0) ? reflect(unit_direction, rec.normal) : refract(unit_direction, rec.normal, refraction_ratio);
+
+            scattered = ray(rec.p, direction);
             return true;
         }
 
